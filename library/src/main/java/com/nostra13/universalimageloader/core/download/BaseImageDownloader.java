@@ -23,7 +23,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.ContactsContract;
+// import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -62,7 +62,7 @@ public class BaseImageDownloader implements ImageDownloader {
 
 	protected static final int MAX_REDIRECT_COUNT = 5;
 
-	protected static final String CONTENT_CONTACTS_URI_PREFIX = "content://com.android.contacts/";
+	// protected static final String CONTENT_CONTACTS_URI_PREFIX = "content://com.android.contacts/";
 
 	private static final String ERROR_UNSUPPORTED_SCHEME = "UIL doesn't support scheme(protocol) by default [%s]. " + "You should implement this support yourself (BaseImageDownloader.getStreamFromOtherSource(...))";
 
@@ -218,22 +218,23 @@ public class BaseImageDownloader implements ImageDownloader {
 				bitmap.compress(CompressFormat.PNG, 0, bos);
 				return new ByteArrayInputStream(bos.toByteArray());
 			}
-		} else if (imageUri.startsWith(CONTENT_CONTACTS_URI_PREFIX)) { // contacts photo
-			return getContactPhotoStream(uri);
+		// } else if (imageUri.startsWith(CONTENT_CONTACTS_URI_PREFIX)) { // contacts photo
+			// return getContactPhotoStream(uri);
+			// return null;
 		}
 
 		return res.openInputStream(uri);
 	}
 
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	protected InputStream getContactPhotoStream(Uri uri) {
-		ContentResolver res = context.getContentResolver();
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			return ContactsContract.Contacts.openContactPhotoInputStream(res, uri, true);
-		} else {
-			return ContactsContract.Contacts.openContactPhotoInputStream(res, uri);
-		}
-	}
+	// @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	// protected InputStream getContactPhotoStream(Uri uri) {
+	// 	ContentResolver res = context.getContentResolver();
+	// 	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+	// 		return ContactsContract.Contacts.openContactPhotoInputStream(res, uri, true);
+	// 	} else {
+	// 		return ContactsContract.Contacts.openContactPhotoInputStream(res, uri);
+	// 	}
+	// }
 
 	/**
 	 * Retrieves {@link InputStream} of image by URI (image is located in assets of application).
